@@ -1,0 +1,70 @@
+/* Tailwind layers: base resets, component classes, then utilities. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Design tokens.
+ *
+ * Defining colors as CSS variables (instead of hard-coding hex values in
+ * components) means the entire theme can be re-skinned from one place. The
+ * tailwind.config.ts maps these variables to semantic class names like
+ * `bg-background`, `text-foreground`, `bg-primary`, etc.
+ *
+ * `:root` holds the LIGHT theme. The `.dark` class (added to <html> by the
+ * theme toggle) overrides the same tokens with DARK values. Because components
+ * only ever reference the semantic token, switching themes is automatic.
+ */
+:root {
+  color-scheme: light;
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-foreground: #0f172a;
+  --color-muted: #64748b;
+  --color-primary: #6366f1;
+  --color-primary-foreground: #ffffff;
+  --color-border: #e2e8f0;
+
+  /* Default font stack; the locale layout overrides --font-sans per language. */
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-background: #0b0f17;
+  --color-surface: #121826;
+  --color-foreground: #e6edf6;
+  --color-muted: #94a3b8;
+  --color-primary: #818cf8;
+  --color-primary-foreground: #0b0f17;
+  --color-border: #1f2937;
+}
+
+@layer base {
+  /* Smooth in-page navigation for the anchor-based nav links. */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Respect users who prefer reduced motion for accessibility. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * `.surface-card` is a reusable visual treatment shared by multiple
+   * components (project cards, contact box, etc.) so the look stays consistent
+   * and DRY. Components reference it via the <Card /> component.
+   */
+  .surface-card {
+    @apply rounded-2xl border border-border bg-surface p-6 transition-colors;
+  }
+}
