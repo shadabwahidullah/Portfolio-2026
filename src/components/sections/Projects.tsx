@@ -50,16 +50,43 @@ function ProjectCard({
           ))}
         </ul>
 
-        {/* External live-preview link (opens in a new, secure tab). */}
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-        >
-          {viewLabel}
-          <span aria-hidden="true">↗</span>
-        </a>
+        {/* External links - either app store buttons or live preview link */}
+        {project.appStoreUrl || project.playStoreUrl ? (
+          <div className="flex gap-3">
+            {project.appStoreUrl && (
+              <a
+                href={project.appStoreUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+              >
+                App Store
+                <span aria-hidden="true">↗</span>
+              </a>
+            )}
+            {project.playStoreUrl && (
+              <a
+                href={project.playStoreUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+              >
+                Play Store
+                <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </div>
+        ) : project.url ? (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+          >
+            {viewLabel}
+            <span aria-hidden="true">↗</span>
+          </a>
+        ) : null}
       </div>
     </Card>
   );

@@ -26,7 +26,7 @@ const en = {
   // About section.
   about: {
     title: "About me",
-    body: "I'm a software developer passionate about building high-quality mobile and web applications that solve real-world problems. With 4+ years of experience in mobile and frontend development, I focus on creating performant, accessible, and scalable solutions with clean architecture.\nI've launched multiple products across different platforms and thrive on solving challenging problems that make a positive impact on people's lives. Beyond professional development, I'm a first-place ICPC winner (2019) and a multiple-time hackathon champion, reflecting my commitment to continuous learning and technical excellence.",
+    body: "I'm a software developer passionate about building high-quality mobile and web applications that solve real-world problems. With 4+ years of experience in mobile and frontend development, I focus on creating performant, accessible, and scalable solutions with clean architecture.\n\nI've launched multiple products across different platforms and thrive on solving challenging problems that make a positive impact on people's lives.\n\nBeyond professional development, I'm the first-place winner of the Afghanistan {icpcLink} National Contest in 2019 and a multiple-time hackathon champion, reflecting my commitment to continuous learning and technical excellence.",
   },
   // Projects section + a small list of example projects.
   projects: {
@@ -36,29 +36,29 @@ const en = {
     viewProject: "Live preview",
     items: [
       {
-        title: "Analytics Dashboard",
+        title: "Spacebox",
         description:
-          "A real-time analytics dashboard with streaming charts and role-based access.",
-        tags: ["Next.js", "TypeScript", "WebSockets"],
-        // Preview screenshot (lives in /public/projects) + external live link.
-        image: "/projects/analytics.svg",
-        url: "https://example.com",
+          "The first Hong Kong storage company to introduce door-to-door storage services, providing better and more convenient self storage service options than traditional facilities. Spacebox Apps are available on PlayStore and AppStore.",
+        tags: ["React-Native", "Expo", "Redux", "Redux-Toolkit", "TypeScript", "Node.js", "Express.js", "REST API", "PostgreSQL"],
+        image: "/projects/spacebox.png",
+        appStoreUrl: "https://apps.apple.com/us/app/spacebox-%E9%9A%A8%E5%AD%98%E5%B1%8B/id1398765354",
+        playStoreUrl: "https://play.google.com/store/apps/details?id=com.spacebox&pli=1",
       },
       {
-        title: "E-commerce Platform",
+        title: "Spacebox Website",
         description:
-          "A headless storefront with optimized images and edge-rendered pages.",
-        tags: ["React", "Stripe", "Edge"],
-        image: "/projects/ecommerce.svg",
-        url: "https://example.com",
+          "Developed the official website for Spacebox, a leading Hong Kong storage provider offering self-storage, door-to-door storage, and business storage solutions. The platform enables customers to explore storage plans, manage storage services, and access information about logistics and inventory management features.",
+        tags: ["Next.js", "React", "TypeScript"],
+        image: "/projects/spacebox-website.png",
+        url: "https://www.spacebox.com.hk/",
       },
       {
-        title: "Design System",
+        title: "Daily Budget",
         description:
-          "A reusable component library with theming and full RTL support.",
-        tags: ["Tailwind", "Storybook", "a11y"],
-        image: "/projects/design-system.svg",
-        url: "https://example.com",
+          "A mobile application designed to help users take control of their finances through simple and effective budget management. The app enables users to track daily expenses, monitor spending habits, manage income and savings goals, and gain better visibility into their financial health through intuitive reporting and analytics.",
+        tags: ["React-Native", "Expo", "TypeScript", "SQLite"],
+        image: "/projects/daily-budget.png",
+        playStoreUrl: "https://play.google.com/store/apps/details?id=com.shadab.dailybudget.app",
       },
     ],
   },
@@ -66,13 +66,18 @@ const en = {
   skills: {
     title: "Skills & tools",
     subtitle: "Technologies I work with every day.",
+    categories: {
+      "Frontend & Mobile": "Frontend & Mobile",
+      "Backend & Database": "Backend & Database",
+      "Tools & Testing": "Tools & Testing",
+    },
   },
   // Contact section, including all labels/messages for the email form.
   contact: {
     title: "Let's work together",
     body: "Have a project in mind or just want to say hello? My inbox is always open.",
     // Recipient address the form sends to.
-    email: "hello@example.com",
+    email: "shadabwahidullah+hello@gmail.com",
     form: {
       name: "Name",
       namePlaceholder: "Jane Doe",
@@ -100,8 +105,8 @@ const en = {
   },
   // Social profile links (same URLs across languages).
   social: {
-    linkedin: "https://www.linkedin.com/in/your-handle",
-    github: "https://github.com/your-handle",
+    linkedin: "https://www.linkedin.com/in/wahidullah-shadab/",
+    github: "https://github.com/shadabwahidullah",
   },
   // Footer.
   footer: {
