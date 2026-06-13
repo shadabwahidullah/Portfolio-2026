@@ -21,14 +21,14 @@ const en = {
     tagline:
       "I build fast, accessible, and beautiful mobile and web experiences with modern tooling.",
     seoDescription:
-      "Full-Stack Developer with 4+ years of experience in React Native, Next.js & TypeScript. I build fast, accessible, and scalable mobile and web applications.",
+      "Full-Stack Developer with {years}+ years of experience in React Native, Next.js & TypeScript. I build fast, accessible, and scalable mobile and web applications.",
     ctaPrimary: "View my work",
     ctaSecondary: "Get in touch",
   },
   // About section.
   about: {
     title: "About me",
-    body: "I'm a software developer passionate about building high-quality mobile and web applications that solve real-world problems. With 4+ years of experience in mobile and frontend development, I focus on creating performant, accessible, and scalable solutions with clean architecture.\n\nI've launched multiple products across different platforms and thrive on solving challenging problems that make a positive impact on people's lives.\n\nBeyond professional development, I'm the first-place winner of the Afghanistan {icpcLink} National Contest in 2019 and a multiple-time hackathon champion, reflecting my commitment to continuous learning and technical excellence.",
+    body: "I'm a software developer passionate about building high-quality mobile and web applications that solve real-world problems. With {years}+ years of experience in mobile and frontend development, I focus on creating performant, accessible, and scalable solutions with clean architecture.\n\nI've launched multiple products across different platforms and thrive on solving challenging problems that make a positive impact on people's lives.\n\nBeyond professional development, I'm the first-place winner of the Afghanistan {icpcLink} National Contest in 2019 and a multiple-time hackathon champion, reflecting my commitment to continuous learning and technical excellence.",
   },
   // Projects section + a small list of example projects.
   projects: {

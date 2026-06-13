@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { env } from "@/lib/env";
+import { replaceYearsPlaceholder } from "@/lib/text";
 import "@/app/globals.css";
 import { getFontForLocale } from "@/app/fonts";
 import {
@@ -50,9 +51,10 @@ export async function generateMetadata({
 
   const dict = await getDictionary(locale);
   const baseUrl = env.NEXT_PUBLIC_BASE_URL;
+  const seoDescription = replaceYearsPlaceholder(dict.hero.seoDescription);
   return {
     title: `${dict.hero.name} — ${dict.hero.role}`,
-    description: dict.hero.seoDescription,
+    description: seoDescription,
     keywords: "full-stack developer, web developer, mobile developer, React, Next.js, React Native, TypeScript, Node.js, portfolio",
     authors: [{ name: dict.hero.name }],
     creator: dict.hero.name,
@@ -77,7 +79,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title: `${dict.hero.name} — ${dict.hero.role}`,
-      description: dict.hero.seoDescription,
+      description: seoDescription,
       type: "profile",
       locale,
       url: `/${locale}`,
@@ -94,7 +96,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${dict.hero.name} — ${dict.hero.role}`,
-      description: dict.hero.seoDescription,
+      description: seoDescription,
       images: ["/opengraph-image"],
     },
   };
@@ -127,6 +129,7 @@ export default async function LocaleLayout({
   const canonicalUrl = `${protocol}://${host}/${locale}`;
 
   const baseUrl = env.NEXT_PUBLIC_BASE_URL;
+  const seoDescription = replaceYearsPlaceholder(dict.hero.seoDescription);
 
   // JSON-LD: array of schemas — WebSite + ProfilePage/Person.
   // Google recommends multiple schemas on the same page for richer indexing.
@@ -136,7 +139,7 @@ export default async function LocaleLayout({
       "@type": "WebSite",
       url: baseUrl,
       name: `${dict.hero.name} — Portfolio`,
-      description: dict.hero.seoDescription,
+      description: seoDescription,
       inLanguage: locale,
       author: { "@type": "Person", name: dict.hero.name },
     },
@@ -149,7 +152,7 @@ export default async function LocaleLayout({
         "@type": "Person",
         name: dict.hero.name,
         jobTitle: dict.hero.role,
-        description: dict.hero.seoDescription,
+        description: seoDescription,
         url: canonicalUrl,
         email: dict.contact.email,
         sameAs: [dict.social.linkedin, dict.social.github],
