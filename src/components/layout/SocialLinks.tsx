@@ -29,7 +29,7 @@ export function SocialLinks({
           <a
             href={link.href}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
             aria-label={link.label}
             className={cn(
               "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border",

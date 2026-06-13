@@ -4,6 +4,27 @@ const nextConfig = {
   reactStrictMode: true,
   // Produce a self-contained build output that is cheap to deploy/containerize.
   output: "standalone",
+
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          // Prevents MIME-type sniffing (XSS vector).
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          // Prevents clickjacking.
+          { key: "X-Frame-Options", value: "DENY" },
+          // Controls how much referrer info is sent — balances analytics with privacy.
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          // Restricts browser features not needed by this site.
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     // The project preview images shipped in /public/projects are SVGs. Next's
     // image optimizer refuses SVGs by default (they can embed scripts). These

@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
+import { env } from "@/lib/env";
 import "@/app/globals.css";
 import { getFontForLocale } from "@/app/fonts";
 import {
@@ -47,19 +49,53 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
 
   const dict = await getDictionary(locale);
+  const baseUrl = env.NEXT_PUBLIC_BASE_URL;
   return {
     title: `${dict.hero.name} — ${dict.hero.role}`,
-    description: dict.hero.tagline,
+    description: dict.hero.seoDescription,
+    keywords: "full-stack developer, web developer, mobile developer, React, Next.js, React Native, TypeScript, Node.js, portfolio",
+    authors: [{ name: dict.hero.name }],
+    creator: dict.hero.name,
+    publisher: dict.hero.name,
+    metadataBase: new URL(baseUrl),
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-snippet": -1,
+        "max-image-preview": "large",
+        "max-video-preview": -1,
+      },
+    },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: Object.fromEntries(
+        locales.map((l) => [l, `/${l}`])
+      ),
+    },
     openGraph: {
       title: `${dict.hero.name} — ${dict.hero.role}`,
-      description: dict.hero.tagline,
-      type: "website",
+      description: dict.hero.seoDescription,
+      type: "profile",
       locale,
+      url: `/${locale}`,
+      siteName: `${dict.hero.name} — Portfolio`,
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: `${dict.hero.name} — ${dict.hero.role}`,
+        },
+      ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${dict.hero.name} — ${dict.hero.role}`,
-      description: dict.hero.tagline,
+      description: dict.hero.seoDescription,
+      images: ["/opengraph-image"],
     },
   };
 }
@@ -84,6 +120,47 @@ export default async function LocaleLayout({
   const dict = await getDictionary(locale as Locale);
   const { className, fontVariable } = getFontForLocale(locale);
 
+  // Build canonical URL based on the actual request host
+  const headersList = await headers();
+  const host = headersList.get("host") || "localhost:3000";
+  const protocol = headersList.get("x-forwarded-proto") || "http";
+  const canonicalUrl = `${protocol}://${host}/${locale}`;
+
+  const baseUrl = env.NEXT_PUBLIC_BASE_URL;
+
+  // JSON-LD: array of schemas — WebSite + ProfilePage/Person.
+  // Google recommends multiple schemas on the same page for richer indexing.
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      url: baseUrl,
+      name: `${dict.hero.name} — Portfolio`,
+      description: dict.hero.seoDescription,
+      inLanguage: locale,
+      author: { "@type": "Person", name: dict.hero.name },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      url: canonicalUrl,
+      inLanguage: locale,
+      mainEntity: {
+        "@type": "Person",
+        name: dict.hero.name,
+        jobTitle: dict.hero.role,
+        description: dict.hero.seoDescription,
+        url: canonicalUrl,
+        email: dict.contact.email,
+        sameAs: [dict.social.linkedin, dict.social.github],
+        knowsAbout: [
+          "React", "React Native", "Next.js", "TypeScript",
+          "Node.js", "Express", "PostgreSQL", "GraphQL", "Expo",
+        ],
+      },
+    },
+  ];
+
   return (
     <html
       lang={locale}
@@ -99,15 +176,32 @@ export default async function LocaleLayout({
       <head>
         {/* Applies the saved/system theme before first paint to avoid a flash. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* JSON-LD structured data for rich snippets */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {/* Canonical URL - prevents duplicate content issues */}
+        <link rel="canonical" href={canonicalUrl} />
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className="flex min-h-screen flex-col">
+        {/* Skip-to-content: accessibility + Google crawlability */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:outline-none"
+        >
+          Skip to main content
+        </a>
         <Header
           locale={locale}
           dict={dict.nav}
           switcherLabel={dict.localeSwitcher.label}
           themeLabels={dict.theme}
         />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" aria-label="Main content" className="flex-1">{children}</main>
         <Footer dict={dict.footer} name={dict.hero.name} social={dict.social} />
       </body>
     </html>

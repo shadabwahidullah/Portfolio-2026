@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { serverEnv } from "@/lib/env";
 
 /**
  * POST /api/contact — receives a contact-form submission.
@@ -73,7 +74,7 @@ export async function POST(request: Request) {
   }
 
   // Send email via Resend
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = serverEnv.RESEND_API_KEY;
   
   if (!apiKey) {
     console.error("RESEND_API_KEY is not set in environment variables");
@@ -88,7 +89,7 @@ export async function POST(request: Request) {
     
     // Get recipient email from environment or use default
     // Note: Resend free tier only allows sending to the base email address (without + subaddressing)
-    const recipientEmail = process.env.CONTACT_EMAIL || "shadabwahidullah@gmail.com";
+    const recipientEmail = serverEnv.CONTACT_EMAIL;
     
     // Build email content
     const emailContent = `

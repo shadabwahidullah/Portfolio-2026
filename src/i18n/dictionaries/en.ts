@@ -20,6 +20,8 @@ const en = {
     role: "Full-Stack Developer",
     tagline:
       "I build fast, accessible, and beautiful mobile and web experiences with modern tooling.",
+    seoDescription:
+      "Full-Stack Developer with 4+ years of experience in React Native, Next.js & TypeScript. I build fast, accessible, and scalable mobile and web applications.",
     ctaPrimary: "View my work",
     ctaSecondary: "Get in touch",
   },
