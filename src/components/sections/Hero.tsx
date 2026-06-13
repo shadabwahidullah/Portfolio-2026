@@ -11,20 +11,22 @@ import { Button } from "@/components/ui/Button";
  */
 export function Hero({ dict }: { dict: Dictionary["hero"] }) {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="hero-gradient py-24 sm:py-32">
       <Container className="flex flex-col items-start gap-6">
-        <p className="text-muted">
+        <p className="text-muted animate-fade-in">
           {dict.greeting}{" "}
           <span className="font-semibold text-foreground">{dict.name}</span>
         </p>
 
-        <h1 className="text-4xl font-extrabold leading-tight sm:text-6xl">
+        <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl animate-slide-up text-foreground">
           {dict.role}
         </h1>
 
-        <p className="max-w-xl text-lg text-muted">{dict.tagline}</p>
+        <p className="max-w-xl text-lg text-muted animate-slide-up animation-delay-200">
+          {dict.tagline}
+        </p>
 
-        <div className="mt-2 flex flex-wrap gap-3">
+        <div className="mt-2 flex flex-wrap gap-3 animate-slide-up animation-delay-400">
           <Button href="#projects">{dict.ctaPrimary}</Button>
           <Button href="#contact" variant="secondary">
             {dict.ctaSecondary}

@@ -29,30 +29,3 @@ const loaders: Record<Locale, () => Promise<Dictionary>> = {
 export async function getDictionary(locale: Locale): Promise<Dictionary> {
   return loaders[locale]();
 }
-
-/**
- * Rich text helper that replaces placeholders with React components.
- * Similar to next-intl's t.rich() but works with the existing dictionary system.
- *
- * @param text - The translation text with placeholders like {key}
- * @param components - Object mapping placeholder keys to render functions
- * @returns React elements with placeholders replaced by components
- */
-export function rich(
-  text: string,
-  components: Record<string, (chunks: React.ReactNode) => React.ReactNode>
-): React.ReactNode {
-  const parts = text.split(/({\w+})/);
-  
-  return parts.map((part, index) => {
-    const match = part.match(/^{(\w+)}$/);
-    if (match) {
-      const key = match[1];
-      const Component = components[key];
-      if (Component) {
-        return Component(key);
-      }
-    }
-    return part;
-  });
-}

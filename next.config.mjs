@@ -11,6 +11,9 @@ const nextConfig = {
     // CSP that blocks any scripts/embeds inside the SVG.
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Prefer AVIF (smallest file size) then WebP before falling back to the
+    // original format. Makes a measurable difference on image-heavy pages.
+    formats: ["image/avif", "image/webp"],
   },
 };
 

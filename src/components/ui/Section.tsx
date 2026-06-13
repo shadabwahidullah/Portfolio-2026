@@ -26,11 +26,12 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={cn("scroll-mt-20 py-20 sm:py-28", className)}>
+    <section id={id} className={cn("scroll-mt-24 py-20 sm:py-28", className)}>
       <Container>
         {title && (
           <header className="mb-10 max-w-2xl">
             <h2 className="text-2xl font-bold sm:text-3xl">{title}</h2>
+            <div className="mt-3 h-1 w-10 rounded-full bg-primary/60" />
             {subtitle && <p className="mt-3 text-muted">{subtitle}</p>}
           </header>
         )}

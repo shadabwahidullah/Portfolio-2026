@@ -5,11 +5,11 @@ type ButtonVariant = "primary" | "secondary";
 
 // Shared base classes + per-variant classes, defined once for consistency.
 const baseClasses =
-  "inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+  "inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed active:scale-95";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-primary-foreground hover:opacity-90",
-  secondary: "border border-border bg-surface hover:bg-border",
+  primary: "bg-primary text-primary-foreground hover:opacity-90 hover:-translate-y-0.5 shadow-sm hover:shadow-md",
+  secondary: "border border-border bg-surface hover:bg-border hover:-translate-y-0.5",
 };
 
 /**

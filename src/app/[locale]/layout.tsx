@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import "@/app/globals.css";
 import { getFontForLocale } from "@/app/fonts";
@@ -13,6 +13,19 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { themeInitScript } from "@/components/layout/ThemeToggle";
 import type { LocaleParams } from "@/types";
+
+/**
+ * Canonical viewport meta — extracted from Metadata per Next.js 13+ best
+ * practice so it isn't duplicated across nested layouts.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0f17" },
+  ],
+};
 
 /**
  * Pre-generate a static page for each supported locale at build time.
@@ -37,6 +50,17 @@ export async function generateMetadata({
   return {
     title: `${dict.hero.name} — ${dict.hero.role}`,
     description: dict.hero.tagline,
+    openGraph: {
+      title: `${dict.hero.name} — ${dict.hero.role}`,
+      description: dict.hero.tagline,
+      type: "website",
+      locale,
+    },
+    twitter: {
+      card: "summary",
+      title: `${dict.hero.name} — ${dict.hero.role}`,
+      description: dict.hero.tagline,
+    },
   };
 }
 

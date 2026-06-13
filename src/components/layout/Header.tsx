@@ -1,10 +1,10 @@
-import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { NavLink } from "@/types";
 import { Container } from "@/components/ui/Container";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
+import { BrandLink } from "./BrandLink";
 
 /**
  * Header (Server Component)
@@ -37,9 +37,7 @@ export function Header({
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between gap-4">
         {/* Brand returns to the localized home page. */}
-        <Link href={`/${locale}`} className="text-lg font-bold">
-          {"<dev />"}
-        </Link>
+        <BrandLink locale={locale} />
 
         {/* Primary in-page navigation (hidden on small screens to stay clean). */}
         <nav className="hidden items-center gap-6 sm:flex">
@@ -47,7 +45,7 @@ export function Header({
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-muted transition-colors hover:text-foreground"
+              className="relative text-sm text-muted transition-colors hover:text-foreground after:absolute after:bottom-[-3px] after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-primary after:transition-[width] after:duration-200 hover:after:w-full"
             >
               {link.label}
             </a>

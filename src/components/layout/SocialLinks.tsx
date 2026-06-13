@@ -33,7 +33,7 @@ export function SocialLinks({
             aria-label={link.label}
             className={cn(
               "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border",
-              "text-muted transition-colors hover:text-foreground",
+              "text-muted transition-all hover:text-foreground hover:border-foreground/30 hover:bg-surface hover:-translate-y-0.5",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             )}
           >

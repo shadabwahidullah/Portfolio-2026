@@ -48,12 +48,21 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    /* Removed background-attachment:fixed — it prevents GPU compositing and
+       forces a repaint on every scroll frame, especially on mobile. */
+    animation: page-fade-in 0.3s ease-out;
   }
 
   /* Respect users who prefer reduced motion for accessibility. */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
+    }
+    body {
+      background-image: none;
+      animation: none;
     }
   }
 }
@@ -65,6 +74,106 @@
    * and DRY. Components reference it via the <Card /> component.
    */
   .surface-card {
-    @apply rounded-2xl border border-border bg-surface p-6 transition-colors;
+    @apply rounded-2xl border border-border bg-surface p-6 shadow-sm;
+    /* Include box-shadow in the transition so card hover shadow animates smoothly. */
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Fade-in animation for sections */
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(24px);
+    /* Spring-like cubic-bezier feels more natural than linear ease-out. */
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Skip animations entirely for users who prefer reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-section {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Hero gradient background */
+  .hero-gradient {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+  }
+
+  .dark .hero-gradient {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(129, 140, 248, 0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 80% 20%, rgba(167, 139, 250, 0.07) 0%, transparent 50%);
+  }
+}
+
+@layer utilities {
+  /* Hero animations */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes page-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  /* fill-mode: both — applies the 'from' keyframe during the delay period
+     (prevents a visible flash while the delay timer is counting down) AND
+     holds the 'to' values after the animation ends. */
+  .animate-slide-up {
+    animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Disable hero entrance animations for prefers-reduced-motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 0.4s;
   }
 }

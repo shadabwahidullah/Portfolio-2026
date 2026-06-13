@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 /** A single project's data, derived from the dictionary's project items. */
 type Project = Dictionary["projects"]["items"][number];
@@ -17,13 +20,16 @@ type Project = Dictionary["projects"]["items"][number];
 function ProjectCard({
   project,
   viewLabel,
+  priority = false,
 }: {
   project: Project;
   /** Localized label for the "live preview" link. */
   viewLabel: string;
+  /** Set true for the first/above-the-fold card to preload the image (LCP). */
+  priority?: boolean;
 }) {
   return (
-    <Card as="article" className="flex h-full flex-col gap-4 overflow-hidden p-0">
+    <Card as="article" className="group flex h-full flex-col gap-4 overflow-hidden p-0 transition-all hover:shadow-lg hover:-translate-y-1">
       {/* Preview screenshot. `next/image` lazy-loads + sizes it responsively. */}
       <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-background">
         <Image
@@ -32,7 +38,8 @@ function ProjectCard({
           fill
           // Tell the optimizer how wide the image renders at each breakpoint.
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
+          priority={priority}
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
@@ -45,7 +52,7 @@ function ProjectCard({
         <ul className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <li key={tag}>
-              <Badge>{tag}</Badge>
+              <Badge className="transition-transform hover:scale-105">{tag}</Badge>
             </li>
           ))}
         </ul>
@@ -99,16 +106,21 @@ function ProjectCard({
  * content is fully localized and adding a project is a data-only change.
  */
 export function Projects({ dict }: { dict: Dictionary["projects"] }) {
+  const [ref, isVisible] = useIntersectionObserver();
+
   return (
     <Section id="projects" title={dict.title} subtitle={dict.subtitle}>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {dict.items.map((project) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            viewLabel={dict.viewProject}
-          />
-        ))}
+      <div ref={ref} className={`fade-in-section ${isVisible ? "is-visible" : ""}`}>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {dict.items.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              project={project}
+              viewLabel={dict.viewProject}
+              priority={index === 0}
+            />
+          ))}
+        </div>
       </div>
     </Section>
   );
