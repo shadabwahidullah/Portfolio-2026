@@ -38,7 +38,7 @@ const en = {
     viewProject: "Live preview",
     items: [
       {
-        title: "Spacebox",
+        title: "Spacebox (App)",
         description:
           "The first Hong Kong storage company to introduce door-to-door storage services, providing better and more convenient self storage service options than traditional facilities. Spacebox Apps are available on PlayStore and AppStore.",
         tags: ["React-Native", "Expo", "Redux", "Redux-Toolkit", "TypeScript", "Node.js", "Express.js", "REST API", "PostgreSQL"],
@@ -47,7 +47,7 @@ const en = {
         playStoreUrl: "https://play.google.com/store/apps/details?id=com.spacebox&pli=1",
       },
       {
-        title: "Spacebox Website",
+        title: "Spacebox (Website)",
         description:
           "Developed the official website for Spacebox, a leading Hong Kong storage provider offering self-storage, door-to-door storage, and business storage solutions. The platform enables customers to explore storage plans, manage storage services, and access information about logistics and inventory management features.",
         tags: ["Next.js", "React", "TypeScript"],
@@ -55,7 +55,7 @@ const en = {
         url: "https://www.spacebox.com.hk/",
       },
       {
-        title: "Daily Budget",
+        title: "Daily Budget (App)",
         description:
           "A mobile application designed to help users take control of their finances through simple and effective budget management. The app enables users to track daily expenses, monitor spending habits, manage income and savings goals, and gain better visibility into their financial health through intuitive reporting and analytics.",
         tags: ["React-Native", "Expo", "TypeScript", "SQLite"],
