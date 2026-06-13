@@ -77,7 +77,7 @@ const en = {
     title: "Let's work together",
     body: "Have a project in mind or just want to say hello? My inbox is always open.",
     // Recipient address the form sends to.
-    email: "shadabwahidullah+hello@gmail.com",
+    email: "shadabwahidullah@gmail.com",
     form: {
       name: "Name",
       namePlaceholder: "Jane Doe",

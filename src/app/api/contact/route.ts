@@ -1,17 +1,12 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
 /**
  * POST /api/contact — receives a contact-form submission.
  *
  * Responsibilities:
  *   1. Parse + validate the incoming JSON ({ name, email, message }).
- *   2. (Integration point) Forward the message to an email provider.
- *
- * To keep the project runnable with ZERO configuration, this handler currently
- * validates and logs the submission server-side, then returns success. When
- * you're ready to actually deliver mail, plug an email provider in at the
- * marked spot below (e.g. Resend, SendGrid, Nodemailer) using an API key from
- * an environment variable — never hard-code secrets.
+ *   2. Forward the message to the recipient email via Resend.
  */
 
 /**
@@ -77,15 +72,48 @@ export async function POST(request: Request) {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // INTEGRATION POINT: deliver the message here.
-  //
-  //   const apiKey = process.env.RESEND_API_KEY;
-  //   await resend.emails.send({ from, to, subject, text: message });
-  //
-  // For now we just log it so the form works out of the box during development.
-  // ---------------------------------------------------------------------------
-  console.log("New contact submission:", { name, email, phone, message });
+  // Send email via Resend
+  const apiKey = process.env.RESEND_API_KEY;
+  
+  if (!apiKey) {
+    console.error("RESEND_API_KEY is not set in environment variables");
+    return NextResponse.json(
+      { error: "Email service not configured." },
+      { status: 500 }
+    );
+  }
+
+  try {
+    const resend = new Resend(apiKey);
+    
+    // Get recipient email from environment or use default
+    // Note: Resend free tier only allows sending to the base email address (without + subaddressing)
+    const recipientEmail = process.env.CONTACT_EMAIL || "shadabwahidullah@gmail.com";
+    
+    // Build email content
+    const emailContent = `
+Name: ${name}
+Email: ${email || "Not provided"}
+Phone: ${phone || "Not provided"}
+
+Message:
+${message}
+    `.trim();
+
+    const result = await resend.emails.send({
+      from: "Portfolio Contact <onboarding@resend.dev>",
+      to: recipientEmail,
+      subject: `New Contact Form Submission from ${name}`,
+      text: emailContent,
+    });
+
+  } catch (error) {
+    console.error("Failed to send email. Error details:", error);
+    return NextResponse.json(
+      { error: "Failed to send email. Please try again." },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({ ok: true }, { status: 200 });
 }
