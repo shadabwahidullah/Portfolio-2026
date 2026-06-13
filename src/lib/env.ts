@@ -28,6 +28,16 @@ export const env = {
     "NEXT_PUBLIC_BASE_URL",
     "http://localhost:3000"
   ),
+
+  /**
+   * Google Analytics Measurement ID (e.g., G-XXXXXXXXXX).
+   * Get your ID at https://analytics.google.com/
+   * Leave empty to disable analytics.
+   */
+  NEXT_PUBLIC_GA_MEASUREMENT_ID: getOptionalEnv(
+    "NEXT_PUBLIC_GA_MEASUREMENT_ID",
+    "G-5NJTNNKK6R"
+  ),
 };
 
 /**
@@ -39,7 +49,7 @@ export const serverEnv = {
    * Resend API key for sending emails via the contact form.
    * Get your key at https://resend.com/api-keys
    */
-  RESEND_API_KEY: getOptionalEnv("RESEND_API_KEY", ""),
+  RESEND_API_KEY: getOptionalEnv("RESEND_API_KEY", "re_ZhWsqmKP_JG8i32gd7rYp5xJt97x4feTR"),
 
   /**
    * Contact email address where form submissions are sent.
